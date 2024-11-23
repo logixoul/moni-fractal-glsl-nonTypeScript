@@ -10,7 +10,6 @@ export class Globals {
         this.stateTex = null;
         this.REAL_SET = { start: -2, end: 1 };
         this.IMAGINARY_SET = { start: -1, end: 1 };
-        this.scale = 1;
         this.configuration = new Configuration();
     }
 }

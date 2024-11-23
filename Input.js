@@ -28,7 +28,7 @@ export class Input {
             };
         });
         function unproject(x, y, tex) {
-            return new THREE.Vector2(x * globals.scale, tex.image.height - 1 - y * globals.scale);
+            return new THREE.Vector2(x, tex.image.height - 1 - y);
         }
         function drawLine(p1Projected, p2Projected) {
             const p1 = unproject(p1Projected.x, p1Projected.y, globals.stateTex.get());

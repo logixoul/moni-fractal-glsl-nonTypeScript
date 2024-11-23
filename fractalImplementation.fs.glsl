@@ -98,8 +98,10 @@ float moniFractal(vec2 coord) {
 	//vec2 testPoint = vec2(0.0,0.0);
 	
     vec2 z = coord;
-	vec2 result = vec2(initialX, initialY);//z;
+	//vec2 result = vec2(initialX, initialY);//z;
+    vec2 result = z;
 	for (int i = 0; i < int(numIterations); i++){
+        //vec2 rToTheNth = complexPow(result, vec2(initialX, initialY));
 		result = complexPow(z, complexInverse(result));
 		if(isnan(result.x)||isnan(result.y))
 			//return 100.0;
@@ -112,12 +114,6 @@ float moniFractal(vec2 coord) {
 		//z+= coord;
 
 		//testPoint = z;
-    
-        /*float ndot = dot(testPoint,testPoint);
-		if (ndot > 2.0) {
-            float sl = float(i) - log2(log2(ndot))+4.0;
-			return sl*.0025;
-		}*/
 	}
 	//return 0.0;
 	//return length(result);
