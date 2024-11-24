@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { shade2, textureCache } from './shade';
 import { globals } from './Globals.js';
-import { Input } from './Input.js';
+import { Input, mix } from './Input.js';
 import * as util from './util';
 import { Image } from "./Image.js";
 const ZOOM_FACTOR = 0.1;
@@ -33,7 +33,14 @@ function initStateTex() {
 initStateTex();
 //const backgroundPicTex = new THREE.TextureLoader().load( 'assets/background.jpg' );
 document.defaultView.addEventListener("resize", initStateTex);
-function animate(now) {
+
+function animate(time) {
+    globals.REAL_SET.start = mix(globals.REAL_SET.start, globals.targetRealSet.start, .1);
+    globals.REAL_SET.end = mix(globals.REAL_SET.end, globals.targetRealSet.end, .1);
+    globals.IMAGINARY_SET.start = mix(globals.IMAGINARY_SET.start, globals.targetImaginarySet.start, .1);
+    globals.IMAGINARY_SET.end = mix(globals.IMAGINARY_SET.end, globals.targetImaginarySet.end, .1);
+
+    //globals.tweenGroup.update(time);
     let tex2 = shade2([globals.stateTex], `
     //const vec2 zoomP = vec2(-.7451544,.1861545);
     const vec2 zoomP = vec2(-.7451544,.1853);

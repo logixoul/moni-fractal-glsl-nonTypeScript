@@ -1,5 +1,5 @@
 		// set samples from 1-16 for quality selection
-const int samples = 1;
+const int samples = 8;
 // set iterations from 1000 for speed to 3000 for completeness
 //const int iterations = 100;
 

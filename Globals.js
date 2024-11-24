@@ -1,15 +1,18 @@
 export class Configuration {
     constructor() {
-        this.numIterations = 100;
+        this.numIterations = 40;
         this.initialX = 0.1;
         this.initialY = 0;
     }
 }
 export class Globals {
+    tweenGroup;
     constructor() {
         this.stateTex = null;
         this.REAL_SET = { start: -2, end: 1 };
         this.IMAGINARY_SET = { start: -1, end: 1 };
+        this.targetRealSet = { start: -2, end: 1 };
+        this.targetImaginarySet = { start: -1, end: 1 };
         this.configuration = new Configuration();
     }
 }
