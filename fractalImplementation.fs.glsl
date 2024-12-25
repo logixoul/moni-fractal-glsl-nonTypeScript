@@ -103,13 +103,11 @@ float moniFractal(vec2 coord) {
 	for (int i = 0; i < int(numIterations); i++){
         //vec2 rToTheNth = complexPow(result, vec2(initialX, initialY));
 		result = complexPow(z, complexInverse(result));
-		if(isnan(result.x)||isnan(result.y))
+		//if(isnan(result.x)||isnan(result.y))
 			//return 100.0;
+		//	return float(i)/float(100);
+		if(result.x == 0.0 || result.y == 0.0)
 			return float(i)/float(100);
-		//if(result.x == 0.0 || result.y == 0.0)
-		//	return 100.0;
-		//if(length(result)>1000000.0)
-		//	return 100.0;
 		//z = complexMult(z, z);
 		//z+= coord;
 
