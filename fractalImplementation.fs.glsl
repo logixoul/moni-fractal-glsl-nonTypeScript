@@ -96,10 +96,23 @@ float moniFractal(vec2 coord) {
     // Тук имплементирам алгоритъма, който GPT беше имплементирал на Пайтън
 
     vec2 z = coord;
-	vec2 result = z;
+	//vec2 r = vec2(initialX, initialY);
+    vec2 r = z;
+    vec2 k = vec2(initialX, initialY);
 	for (int i = 0; i < int(numIterations); i++){
-    	result = complexPow(z, complexInverse(result));
-		if(result.x == 0.0 || result.y == 0.0)
+        // superroot:
+    	//r = complexPow(z, complexInverse(r));
+
+        // ugly:
+        //r = complexDiv(z, complexExp(r));
+        //r = complexLog(complexDiv(z, r));
+
+        //r = complexPow(z, complexInverse(complexPow(r, r)));
+
+        r = complexMul(r, r) + z;
+
+		//if(isnan(r.x) || isnan(r.y))
+        if(length(r) > 1.0)
 			return float(i)/float(100);
 	}
 	return 0.0;
@@ -110,6 +123,6 @@ vec4 palette( in float t, in vec3 a, in vec3 b, in vec3 c, in vec3 d )
 }
 vec4 mapColor(float f) {
 	//return vec4(vec3(mcol), 1.0);
-	f = sqrt(f); // lx
+	//f = sqrt(f); // lx
 	return vec4(0.5 + 0.5*cos(2.7+f*30.0 + vec3(0.0,.6,1.0)),1.0);
 }
