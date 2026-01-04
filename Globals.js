@@ -3,7 +3,7 @@ export class Configuration {
         this.numIterations = 240;
         this.initialX = 0.1;
         this.initialY = 0;
-        this.scale = .5;
+        this.scale = 1.0;
     }
 }
 export class Globals {
