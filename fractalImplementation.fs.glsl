@@ -3,18 +3,22 @@ const int samples = 1;
 // set iterations from 1000 for speed to 3000 for completeness
 //const int iterations = 100;
 
+vec2 cMult(vec2 a, vec2 b) {
+	return vec2(a.x*b.x - a.y*b.y, a.x*b.y + a.y*b.x);
+}
+
 struct Complex {
     float real;
     float imag;
 };
 
-// Function to raise a complex number (base) to a complex power (exponent)
-Complex cpow(Complex base, Complex exponent) {
+// Function to raise a c number (base) to a c power (exponent)
+vec2 cPow(vec2 base, vec2 exponent) {
     // Extract real and imaginary parts of the base and exponent
-    float a = base.real;
-    float b = base.imag;
-    float c = exponent.real;
-    float d = exponent.imag;
+    float a = base.x;
+    float b = base.y;
+    float c = exponent.x;
+    float d = exponent.y;
 
     // Calculate modulus and argument (angle) of the base
     float modulus = sqrt(a * a + b * b);
@@ -26,9 +30,9 @@ Complex cpow(Complex base, Complex exponent) {
     float imaginaryPart = c * arg + d * logModulus;
 
     // Calculate final real and imaginary parts using Euler's formula
-    Complex result;
-    result.real = realPart * cos(imaginaryPart);
-    result.imag = realPart * sin(imaginaryPart);
+    vec2 result;
+    result.x = realPart * cos(imaginaryPart);
+    result.y = realPart * sin(imaginaryPart);
 
     return result;
 }
@@ -37,89 +41,90 @@ Complex cpow(Complex base, Complex exponent) {
 	return Complex(c.real, -c.imag);
 }*/
 
-Complex csin(Complex z) {
-    float realPart = sin(z.real) * cosh(z.imag);
-    float imagPart = cos(z.real) * sinh(z.imag);
-    return Complex(realPart, imagPart);
+vec2 cSin(vec2 z) {
+    float realPart = sin(z.x) * cosh(z.y);
+    float imagPart = cos(z.x) * sinh(z.y);
+    return vec2(realPart, imagPart);
 }
 
-Complex ccos(Complex z) {
-    float realPart = cos(z.real) * cosh(z.imag);
-    float imagPart = -sin(z.real) * sinh(z.imag);
-    return Complex(realPart, imagPart);
+vec2 cCos(vec2 z) {
+    float realPart = cos(z.x) * cosh(z.y);
+    float imagPart = -sin(z.x) * sinh(z.y);
+    return vec2(realPart, imagPart);
 }
 
-Complex cexp(Complex z) {
-    float expReal = exp(z.real) * cos(z.imag);
-    float expImag = exp(z.real) * sin(z.imag);
-    return Complex(expReal, expImag);
+vec2 cExp(vec2 z) {
+    float expReal = exp(z.x) * cos(z.y);
+    float expImag = exp(z.x) * sin(z.y);
+    return vec2(expReal, expImag);
 }
 
-Complex clog(Complex z) {
-    float magnitude = sqrt(z.real * z.real + z.imag * z.imag);
-    float angle = atan(z.imag, z.real);
-    return Complex(log(magnitude), angle);
+vec2 cLog(vec2 z) {
+    float magnitude = length(z);
+    float angle = atan(z.y, z.x);
+    return vec2(log(magnitude), angle);
 }
 
-Complex cdiv(Complex a, Complex b) {
-    float modulusSquared = b.real * b.real + b.imag * b.imag;
-    return Complex((a.real * b.real + a.imag * b.imag) / modulusSquared,
-                   (a.imag * b.real - a.real * b.imag) / modulusSquared);
+vec2 cDiv(vec2 a, vec2 b) {
+    float modulusSquared = b.x * b.x + b.y * b.y;
+    return vec2((a.x * b.x + a.y * b.y) / modulusSquared,
+                (a.y * b.x - a.x * b.y) / modulusSquared);
 }
 
-Complex cmul(Complex a, Complex b) {
-    return Complex(a.real * b.real - a.imag * b.imag,
-                   a.real * b.imag + a.imag * b.real);
+vec2 cMul(vec2 a, vec2 b) {
+    return vec2(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x);
 }
 
-Complex cSuperRoot(Complex z) {
-    Complex w = Complex(1.0, 0.0); // Initial guess
+vec2 cSuperRoot(vec2 z) {
+    vec2 w = vec2(1.0, 0.0); // Initial guess
     for (int i = 0; i < 10; i++) {
-        Complex wLogW = cmul(w, clog(w)); // w * log(w)
-        Complex numerator = clog(z);
-        numerator = cdiv(numerator, clog(w));
-        Complex denominator = Complex(1.0, 0.0);
-        w = cdiv(w, numerator);
+        vec2 wLogW = cMul(w, cLog(w)); // w * log(w)
+        vec2 numerator = cLog(z);
+        numerator = cDiv(numerator, cLog(w));
+        vec2 denominator = vec2(1.0, 0.0);
+        w = cDiv(w, numerator);
     }
     return w; // ?????????????
 }
 
-Complex cinverse(Complex z) {
-    float modulusSquared = z.real * z.real + z.imag * z.imag;
-    return Complex(z.real / modulusSquared, -z.imag / modulusSquared);
+vec2 cInverse(vec2 z) {
+    float modulusSquared = z.x * z.x + z.y * z.y;
+    return vec2(z.x / modulusSquared, -z.y / modulusSquared);
 }
 
 float moniFractal(vec2 coord) {
     // Тук имплементирам алгоритъма, който GPT беше имплементирал на Пайтън
 
-    Complex z = Complex(coord.x, coord.y);
-	//Complex r = Complex(initialX, initialY);
-    Complex r = z;
-    //Complex k = Complex(initialX, initialY);
+    vec2 z = coord;
+	//vec2 r = vec2(initialX, initialY);
+    vec2 r = vec2(0.0, 0.0);
+    //vec2 k = vec2(initialX, initialY);
 	for (int i = 0; i < int(numIterations); i++){
         // superroot:
-    	r = cpow(z, cinverse(r));
+    	//r = cPow(z, cInverse(r));
 
         // ugly:
-        //r = cdiv(z, cexp(r));
-        //r = clog(cdiv(z, r));
+        //r = cDiv(z, cExp(r));
+        //r = cLog(cDiv(z, r));
 
-        //r = cpow(z, cinverse(cpow(r, r)));
+        //r = cPow(z, cInverse(cPow(r, r)));
 
-        //r = cmul(r, r) + z;
+        r = cMul(r, r) + z;
 
 		// Smooth escape time for richer gradients.
-        float r2 = r.real * r.real + r.imag * r.imag;
-        if (r2 > 4.0 || r2 < .00001) {
+        float r2 = dot(r, r);
+        if (r2 > 4.0 || r2 == 0.0) {
             float iter = float(i);
             float smooth_ = iter + 1.0 - log(log(sqrt(r2))) / log(2.0);
-            return smooth_/100.0;
+            return smooth_/numIterations;
         }
 	}
 	return 0.0;
 }
 vec4 mapColor(float f) {
 	//return vec4(vec3(mcol), 1.0);
-	f = sqrt(f); // lx
+	//f = sqrt(f); // lx
+    //f = log(f);
+    //f *= 10.0;
 	return vec4(0.5 + 0.5*cos(2.7+f*30.0 + vec3(0.0,.6,1.0)),1.0);
 }
