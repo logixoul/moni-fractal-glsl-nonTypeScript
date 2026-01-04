@@ -97,7 +97,7 @@ float moniFractal(vec2 coord) {
 
     vec2 z = coord;
 	//vec2 r = vec2(initialX, initialY);
-    vec2 r = vec2(0.0, 0.0);
+    vec2 r = z;
     //vec2 k = vec2(initialX, initialY);
 	for (int i = 0; i < int(numIterations); i++){
         // superroot:
@@ -113,7 +113,8 @@ float moniFractal(vec2 coord) {
 
 		// Smooth escape time for richer gradients.
         float r2 = dot(r, r);
-        if (r2 > 4.0 || r2 == 0.0) {
+        if(r2 > 4.0) {
+        //if (r.x==0.0||r.y==0.0) {
             float iter = float(i);
             float smooth_ = iter + 1.0 - log(log(sqrt(r2))) / log(2.0);
             return smooth_/numIterations;
@@ -124,7 +125,7 @@ float moniFractal(vec2 coord) {
 vec4 mapColor(float f) {
 	//return vec4(vec3(mcol), 1.0);
 	//f = sqrt(f); // lx
-    //f = log(f);
-    //f *= 10.0;
+    f = log(f)/10.0;
+    //f = 10.0;
 	return vec4(0.5 + 0.5*cos(2.7+f*30.0 + vec3(0.0,.6,1.0)),1.0);
 }
