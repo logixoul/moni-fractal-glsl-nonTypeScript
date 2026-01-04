@@ -1,6 +1,6 @@
 export class Configuration {
     constructor() {
-        this.numIterations = 240;
+        this.numIterations = 540;
         this.initialX = 0.1;
         this.initialY = 0;
         this.scale = 1.0;

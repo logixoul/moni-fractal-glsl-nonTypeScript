@@ -104,7 +104,7 @@ function animate(time) {
 			`
     });
     requestAnimationFrame( animate );
-    //setTimeout(animate, 10);
+    //setTimeout(animate, 16);
     shade2([tex2 === null || tex2 === void 0 ? void 0 : tex2.get()], ` // todo: rm the ! and ? when I've migrated ImgProc to TS.
 		float d = fetch1() - fetch1(tex1, tc - vec2(0, tsize1.y));
 		_out.rgb = fetch3();
