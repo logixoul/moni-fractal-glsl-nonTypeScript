@@ -93,7 +93,7 @@ export class Input {
         document.getElementById("sliderBox").appendChild(sliderContainer);
     }
     unprojectPoint(x, y, tex) {
-        let val = new THREE.Vector2(x, tex.image.height - 1 - y);
+        let val = new THREE.Vector2(x, tex.image.height/globals.configuration.scale - 1 - y);
         val.x /= window.innerWidth;
         val.y /= window.innerHeight;
         val.x = mix(globals.REAL_SET.start, globals.REAL_SET.end, val.x);

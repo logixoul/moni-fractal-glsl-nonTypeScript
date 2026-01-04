@@ -97,7 +97,7 @@ float moniFractal(vec2 coord) {
 
     vec2 z = coord;
 	//vec2 r = vec2(initialX, initialY);
-    vec2 r = z;
+    vec2 r = vec2(0, 0);
     vec2 k = vec2(initialX, initialY);
 	for (int i = 0; i < int(numIterations); i++){
         // superroot:
@@ -111,15 +111,15 @@ float moniFractal(vec2 coord) {
 
         r = complexMul(r, r) + z;
 
-		//if(isnan(r.x) || isnan(r.y))
-        if(length(r) > 1.0)
-			return float(i)/float(100);
+		// Smooth escape time for richer gradients.
+        float r2 = dot(r, r);
+        if (r2 > 4.0) {
+            float iter = float(i);
+            float smooth_ = iter + 1.0 - log(log(sqrt(r2))) / log(2.0);
+            return smooth_ / float(numIterations);
+        }
 	}
 	return 0.0;
-}
-vec4 palette( in float t, in vec3 a, in vec3 b, in vec3 c, in vec3 d )
-{
-	return vec4(a + b*cos( 6.283185*(c*t+d) ), 1.0);
 }
 vec4 mapColor(float f) {
 	//return vec4(vec3(mcol), 1.0);

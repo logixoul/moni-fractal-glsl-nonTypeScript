@@ -14,7 +14,7 @@ function initStateTex() {
     }
     var documentW = window.innerWidth;
     var documentH = window.innerHeight;
-    var img = new Image(Math.trunc(documentW), Math.trunc(documentH), Float32Array);
+    var img = new Image(Math.trunc(documentW*globals.configuration.scale), Math.trunc(documentH*globals.configuration.scale), Float32Array);
     //Uint8Array);
     //img.forEach((x : number, y : number) => img.set(x, y, Math.random()));
     globals.stateTex = new THREE.DataTexture(img.data, img.width, img.height, THREE.RedFormat, THREE.FloatType);
